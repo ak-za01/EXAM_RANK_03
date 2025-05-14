@@ -6,7 +6,7 @@
 /*   By: anktiri <anktiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 05:05:45 by anktiri           #+#    #+#             */
-/*   Updated: 2025/05/14 06:14:52 by anktiri          ###   ########.fr       */
+/*   Updated: 2025/05/14 07:00:25 by anktiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,11 @@ int	main(int ac, char **ar)
 	int		size;
 	int		*board;
 	int		i;
-	int		count;
 
 	if (ac < 2)
 		return 1;
 	i = 0;
 	size = atoi(ar[1]);
-	count = 0;
 	board = malloc(size * sizeof(int));
 	if (!board)
 		return 1;
