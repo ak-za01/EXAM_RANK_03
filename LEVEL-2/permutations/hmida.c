@@ -2,8 +2,9 @@
 
 int permute(char *perm, int n)
 {
-	int i = n -1;
+	int i = n - 1;
 	int j = n;
+	char tmp;
 
 	while (i > 0 && perm[i] <= perm[i - 1])
 		i--;
@@ -11,7 +12,7 @@ int permute(char *perm, int n)
 		return 0;
 	while (j > i && perm[i - 1] >= perm[j - 1])
 		j--;
-	char tmp = perm[i - 1];
+	tmp = perm[i - 1];
 	perm[i - 1] = perm[j - 1];
 	perm[j - 1] = tmp;
 	i++;
@@ -19,17 +20,22 @@ int permute(char *perm, int n)
 	while (j > i)
 	{
 		tmp = perm[i - 1];
-	perm[i - 1] = perm[j - 1];
-	perm[j - 1] = tmp;
-	i++;
-	j--;
+		perm[i - 1] = perm[j - 1];
+		perm[j - 1] = tmp;
+		i++;
+		j--;
 	}
 	return 1;
 }
-void sort(char *str, int len) {
-    for (int i = 0; i < len - 1; i++) {
-        for (int j = 0; j < len - i - 1; j++) {
-            if (str[j] > str[j + 1]) {
+
+void sort(char *str, int len)
+{
+    for (int i = 0; i < len - 1; i++)
+	{
+        for (int j = 0; j < len - i - 1; j++)
+		{
+            if (str[j] > str[j + 1])
+			{
                 char temp = str[j];
                 str[j] = str[j + 1];
                 str[j + 1] = temp;
@@ -37,6 +43,7 @@ void sort(char *str, int len) {
         }
     }
 }
+
 int main (int ac, char **av)
 {
 	if (ac != 2)
@@ -48,5 +55,7 @@ int main (int ac, char **av)
 	sort(perm, i);
 	printf("%s\n", perm);
 	while (permute(perm, i))
-	printf("%s\n", perm);
+	{
+		printf("%s\n", perm);
+	}
 }
