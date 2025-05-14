@@ -6,7 +6,7 @@
 /*   By: anktiri <anktiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:37:04 by anktiri           #+#    #+#             */
-/*   Updated: 2025/04/19 14:44:02 by anktiri          ###   ########.fr       */
+/*   Updated: 2025/05/14 06:37:34 by anktiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int main(int ac, char **av)
 {
     char	*str;
 
-	// atexit(ll);
+	atexit(ll);
 	if (ac == 2)
 	{
 		str = redline();
