@@ -1,5 +1,5 @@
 Assignment name			: filter
-Expected files			: *.c *.h ???
+Expected files			: filter.c
 Allowed functions   : malloc, free, calloc, realloc, write, read, perror
 -------------------------------------------------------
 

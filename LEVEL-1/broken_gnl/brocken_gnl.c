@@ -1,80 +1,67 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   brocken_gnl.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anktiri <anktiri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 04:29:42 by anktiri           #+#    #+#             */
-/*   Updated: 2025/05/14 13:42:16 by anktiri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
 
-char    *ft_strdup(const char *str)
+char	*ft_strdup(char *str)
 {
-    char	*copy;
-    int		i = 0;
+	char	*result;
+	int		a = -1;
 
-    copy = (char *)malloc(sizeof(char) * strlen(str) + 1);
-    if (!copy)
-        return (NULL);
-    while (str[i] != '\0')
-    {
-        copy[i] = str[i];
-        i++;
-    }
-    copy[i] = '\0';
-    return (copy);
+	result = malloc(strlen(str) + 1);
+	if (!result)
+		return NULL;
+	while (str[++a])
+		result[a] = str[a];
+	result[a] = '\0';
+	return result;
 }
 
-char    *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    static char    buffer[BUFFER_SIZE];
-    char        line[100000];
-    static int    buffer_read;
-    static int    buffer_pos;
-    int            i;
+	static char	buffer[BUFFER_SIZE];
+	static int	bytes;
+	static int	pos;
+	char		line[500000];
+	int			a = 0;
 
-    i = 0;
-    if (fd < 0 || BUFFER_SIZE < 1)
-        return (NULL);
-    while (1337)
-    {
-        if (buffer_pos >= buffer_read)
-        {
-            buffer_read = read(fd, buffer, BUFFER_SIZE);
-            buffer_pos = 0;
-            if (buffer_read <= 0)
-                break ;
-        }
-        line[i++] = buffer[buffer_pos++];
-        if (buffer[buffer_pos - 1] == '\n')
-            break ;
-    }
-    line[i] = '\0';
-    if (i == 0)
-        return (NULL);
-    return (ft_strdup(line));
+	while (1)
+	{
+		if (pos >= bytes)
+		{
+			bytes = read(fd, buffer, BUFFER_SIZE);
+			pos = 0;
+			if (bytes <= 0)
+			{
+				if (bytes < 0)
+					return NULL;
+				break ;
+			}
+		}
+		line[a++] = buffer[pos++];
+		if (buffer[pos - 1] == '\n')
+			break;
+	}
+	line[a] = '\0';
+	if (a == 0)
+		return (NULL);
+	return (ft_strdup(line));
 }
 
-// #include <stdio.h>
-// #include <fcntl.h>
-
-// int main()
-// {
-// 	int fd = open("test.txt", O_RDONLY, O_RDWR);
-// 	char *line;
-// 	while (line = get_next_line(fd))
-// 	{
-// 		printf("%s", line);
-// 		free(line);
-// 	}
-// }
+int main()
+{
+	char *line;
+	int	fd = open("test", O_RDWR);
+	// for (int i = 0; (line = get_next_line(fd)) && i < 1; i++)
+	// {
+	// 	printf("line[%d]: %s", i, line);
+	// }
+	
+	printf("___line 1____: %s", get_next_line(0));
+	printf("___line 2____: %s", get_next_line(0));
+}
