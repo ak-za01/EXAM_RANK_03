@@ -5,72 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anktiri <anktiri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 07:58:22 by anktiri           #+#    #+#             */
-/*   Updated: 2025/05/14 08:24:24 by anktiri          ###   ########.fr       */
+/*   Created: 2025/06/04 09:50:45 by anktiri           #+#    #+#             */
+/*   Updated: 2025/06/04 09:58:42 by anktiri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-// Sort string using bubble sort
-void sort_string(char *str, int len)
+void	sort(char *str, int len)
 {
-    for (int i = 0; i < len - 1; i++)
+	for (int i = 0; i < len - 1; i++)
 	{
-        for (int j = 0; j < len - i - 1; j++)
+		for (int j = i + 1; j < len; j++)
 		{
-            if (str[j] > str[j + 1])
-			{
-                char temp = str[j];
-                str[j] = str[j + 1];
-                str[j + 1] = temp;
-            }
-        }
-    }
+			if (str[i] > str[j])
+			{	
+				char c = str[i];
+				str[i] = str[j];
+				str[j] = c;
+			}
+		}
+	}
 }
 
-// Generate all permutations using backtracking
-void generate_perms(char *src, char *result, int *used, int len, int pos)
+void	permute(char *str, char *res, int *use, int len, int depth)
 {
-    if (pos == len)
+	if (depth == len)
 	{
-        write(1, result, len);
-        write(1, "\n", 1);
-        return;
-    }
-    
-    for (int i = 0; i < len; i++)
+		puts(res);
+		return ;
+	}
+	for (int i = 0; i < len; i++)
 	{
-        if (!used[i])
-		{
-            used[i] = 1;
-            result[pos] = src[i];
-            generate_perms(src, result, used, len, pos + 1);
-            used[i] = 0;
-        }
-    }
+		if (use[i])
+			continue;
+		use[i] = 1;
+		res[depth] = str[i];
+		permute(str, res, use, len, depth + 1);
+		use[i] = 0;
+	}
+	
 }
 
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
-    if (argc < 2)
-        return 1;
-    int len = strlen(argv[1]);
-    if (len == 0)
-        return 0;
-    char *src = malloc(len + 1);
-    char *result = malloc(len + 1);
-    int *used = calloc(len, sizeof(int));
-    if (!src || !result || !used)
-        return 1;
-    strcpy(src, argv[1]);
-    result[len] = '\0';
-    sort_string(src, len);
-    generate_perms(src, result, used, len, 0);
-    free(src);
-    free(result);
-    free(used);
-    return 0;
+	if (ac != 2)
+		return 1;
+	int len = 0;
+	while (av[1][len])
+		len++;
+	int	*use = calloc(len, sizeof(int));
+	char *res = malloc(len + 1);
+	if (!use || !res)
+		return 1;
+	sort(av[1], len);
+	permute(av[1], res, use, len, 0);
 }

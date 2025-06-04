@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   scanf.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anktiri <anktiri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 07:20:58 by anktiri           #+#    #+#             */
-/*   Updated: 2025/06/04 04:05:56 by anktiri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -17,7 +5,7 @@
 int match_space(FILE *f)
 {
 	int	cr;
-	while (isspace(cr = fgetc(f)) && cr != EOF)
+	while (isspace(cr = fgetc(f)) && cr !=EOF)
 	if (cr == EOF)
 		return -1;
 	ungetc(cr, f);
@@ -50,11 +38,11 @@ int scan_int(FILE *f, va_list ap)
 {
 	int	*ptr = va_arg(ap, int *);
 	int	res = 0;
+	int flag = 0;
 	int	sign = 1;
-	int	flag = 0;
-	int cr;
+	int	cr;
 
-	cr = fgetc(f);
+	while (isspace(cr = fgetc(f)) && cr != EOF)
 	if (cr == EOF)
 		return -1;
 	if (cr == '-' || cr == '+')
@@ -74,7 +62,7 @@ int scan_int(FILE *f, va_list ap)
 	if (cr != EOF)
 		ungetc(cr, f);
 	if (!flag)
-		return -1;
+		return 0;
 	*ptr = res * sign;
     return (1);
 }
@@ -82,22 +70,22 @@ int scan_int(FILE *f, va_list ap)
 int scan_string(FILE *f, va_list ap)
 {
 	char	*str = va_arg(ap, char *);
-	int		a = 0;
 	int		cr;
-	
-	cr = fgetc(f);
+	int		a = 0;
+
+	while (isspace(cr = fgetc(f)) && cr != EOF)
 	if (cr == EOF)
 		return -1;
 	while (cr != EOF && !isspace(cr))
 	{
 		str[a] = cr;
-		a++;
 		cr = fgetc(f);
+		a++;
 	}
 	str[a] = '\0';
-	if (cr != EOF)
+	if (a != EOF)
 		ungetc(cr, f);
-	if (!a)
+	if (cr == 0)
 		return 0;
     return (1);
 }
@@ -160,41 +148,24 @@ int ft_vfscanf(FILE *f, const char *format, va_list ap)
 int ft_scanf(const char *format, ...)
 {
 	va_list	ap;
-	
+
 	va_start(ap, format);
+
 	int ret = ft_vfscanf(stdin, format, ap);
 	va_end(ap);
 	return ret;
 }
 
-// int main()
-// {
-// 	int n;
+int main()
+{
+	int n;
 	
-// 	int i=0;
-// 	char c='!';
-// 	char t[100];
+	int i=0;
+	char c='!';
+	char t[100];
 		
-// 	n = ft_scanf("%s hello%d%c", t, &i, &c);
+	n = ft_scanf("%s hello%d%c", t, &i, &c);
 	
-// 	printf("\n c : %c \n i : %d \n s : %s\n",c , i , t);
-// 	printf("\t> R : %d<\n", n);
-// }
-
-#include <stdio.h>
-
-int main(void) {
-	int a, b;
-	char c;
-	char str[100];
-	int ret;
-
-
-	// Test 12: Invalid input for %d
-	printf("Test 12: Enter invalid input for %%d (e.g., xyz): ");
-	ret = ft_scanf("%d%s", &a, str);
-	printf("Return: %d %d %s(Expected: 0 or EOF)\n", ret, a, str);
-
-	return 0;
+	printf("\n c : %c \n i : %d \n s : %s\n",c , i , t);
+	printf("\t> R : %d<\n", n);
 }
-

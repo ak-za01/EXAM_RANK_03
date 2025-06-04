@@ -1,58 +1,33 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   n_queens.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anktiri <anktiri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 05:05:45 by anktiri           #+#    #+#             */
-/*   Updated: 2025/05/14 07:00:25 by anktiri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include <stdlib.h>
-
-void	print_solution(int *board, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		fprintf(stdout, "%d", board[i]);
-		if (i < size - 1)
-			fprintf(stdout, " ");
-		i++;
-	}
-	fprintf(stdout, "\n");
-}
+#include <unistd.h>
 
 int	valid(int *board, int row, int col)
 {
-	int	i;
-
-	i = 0;
-	while (i < row)
+	for (int i = 0; i < row; i++)
 	{
-		if (col == board[i] || (board[i] - col == i - row) || 
-			(board[i] - col == row - i))
-			return (0);
-		i++;
+		if (col == board[i] || (board[i] - col == i - row) || (board[i] - col == row - i))
+			return 0;
 	}
-	return (1);
+	return 1;
+	
 }
 
 void	solve(int size, int *board, int row)
 {
-	int	col;
+	int col = 0;
 
 	if (row == size)
 	{
-		print_solution(board, size);
+		for (int i = 0; i < size; i++)
+		{
+			printf("%d", board[i]);
+			if (i < size - 1)
+				printf(" ");
+		}
+		printf("\n");
 		return ;
 	}
-	col = 0;
 	while (col < size)
 	{
 		if (valid(board, row, col))
@@ -64,25 +39,18 @@ void	solve(int size, int *board, int row)
 	}
 }
 
-int	main(int ac, char **ar)
+int main(int ac, char **av)
 {
-	int		size;
-	int		*board;
-	int		i;
+	int size;
+	int *board;
 
-	if (ac < 2)
+	if (ac != 2)
 		return 1;
-	i = 0;
-	size = atoi(ar[1]);
-	board = malloc(size * sizeof(int));
+	size = atoi(av[1]);
+	board = calloc(size, sizeof(int));
 	if (!board)
 		return 1;
-	while (i < size)
-	{
-		board[i] = 0;
-		i++;
-	}
 	solve(size, board, 0);
 	free(board);
-	return (0);
+	return 0;
 }
