@@ -54,6 +54,8 @@ char	*redline()
 			pos = 0;
 		}
 		line[a++] = buffer[pos++];
+		if (buffer[pos - 1] == '\n')
+			break ;
 	}
 	line[a] = '\0';
 	if (a == 0)
@@ -89,9 +91,13 @@ int main(int ac, char **av)
 
 	if (ac == 2)
 	{
-		line = redline();
-		search(line, av[1]);
-		write(1, line, ft_strlen(line));
+		while ((line = redline())
+		{
+			search(line, av[1]);
+			write(1, line, ft_strlen(line));
+			free(line);
+		}
+		return (0);
 	}
 	write(1, "\n", 1);
 }
